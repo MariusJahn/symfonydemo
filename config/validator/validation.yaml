@@ -1,0 +1,8 @@
+# config/validator/validation.yaml
+App\Entity\Task:
+  properties:
+    task:
+      - NotBlank: ~
+    date:
+      - NotBlank: ~
+      - Type: \DateTime

@@ -18,7 +18,7 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Kernel.php'
+            - '../src/Kernel.php-fpm'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Betriebsmittelliste{% endblock %}
+
+
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <h1>Betriebsmittel</h1>
+
+    <ul>
+
+
+
+
+    </ul>
+
+    <table class="highlight responsive-table z-depth-5 centered">
+        <thead>
+        <tr>
+            <th>Gerätebezeichnung</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for objekt in betriebsmittel %}
+        <tr>
+            <td>{{ objekt.name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+</div>
+{% endblock %}
