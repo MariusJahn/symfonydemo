@@ -1,3 +1,9 @@
+:root {
+
+    --green: #008000FF;
+
+}
+
 body {
     background-color: white;
     display: grid;
@@ -6,4 +12,9 @@ body {
 
 .touch {
     cursor: pointer;
+}
+
+.flash {
+    color: var(--green);
+
 }

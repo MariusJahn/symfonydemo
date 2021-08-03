@@ -7,21 +7,41 @@
 {% block body %}
 
 <div>
-    <h1>Betriebsmittel</h1>
+    {% if(darfSehen) %}
+        <h1>Betriebsmittel</h1>
+    {% endif %}
+
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <table class="highlight responsive-table z-depth-5 centered">
+        Betriebsmittel hinzufügen <a href="{{ path('create_betriebsmittel')}}"> <i style="float: right" class="small material-icons touch">add</i></a>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Gerätebezeichnung</th>
+            <th></th>
         </tr>
         </thead>
 
         <tbody>
         {% for objekt in betriebsmittel %}
             <tr>
+                <td> {{ objekt.id }}</td>
+                {% if(true) %}
                 <td >{{ objekt.name }}</td>
-                <td><i style="float: right" class="small material-icons touch">delete</i>
-                    <i style="float: right" class="small material-icons touch">edit</i></td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('delete_betriebsmittel', { 'id':  objekt.id }) }}"> <i style="float: right" class="small material-icons touch">delete</i></a>
+                    <a href="{{ path('update_betriebsmittel', { 'id':  objekt.id }) }}"><i style="float: right" class="small material-icons touch">edit</i></a>
+                    <a href="{{ path('show_betriebsmittel', { 'id':  objekt.id }) }}"><i style="float: right" class="small material-icons touch">zoom_in</i></a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

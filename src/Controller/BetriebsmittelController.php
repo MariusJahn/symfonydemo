@@ -25,7 +25,9 @@ class BetriebsmittelController extends AbstractController
             ->getRepository(Betriebsmittel::class);
 
 
-        $betriebsmittel = $repository->findAll();
+        $darfSehen = true;
+
+        $betriebsmittel = $repository->findBy(array(),['id' => 'ASC']);
 
         if (!$betriebsmittel) {
 
@@ -39,19 +41,28 @@ class BetriebsmittelController extends AbstractController
         $logger->info('Alle Einträge der Tabelle wurden geladen');
 
         return $this->render('betriebsmittel/index.html.twig', [
-            'controller_name' => 'TabellenController',
-            'betriebsmittel' => $betriebsmittel
+            'controller_name' => 'BetriebsmittelContoller',
+            'betriebsmittel' => $betriebsmittel,
+            'darfSehen' => $darfSehen,
         ]);
     }
 
     #[Route('/betriebsmittel/{id}', name: 'show_betriebsmittel')]
-    public function show(Betriebsmittel $betriebsmittel, LoggerInterface $logger): Response
+    public function show(Request $request, LoggerInterface $logger, $id): Response
     {
+
+        $data = $this->getDoctrine()->getRepository(Betriebsmittel::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
 
         // Mit composer require sensio/framework-extra-bundle kann man direkt auf das Betriebsmittel zugreifen
         // vorher musste man die id selbst aufrufen und den 404 error erzeugen.
 
-        return new Response('Check out this great betriebsmittel: '.$betriebsmittel->getName());
+        //return new Response('Schau dir dieses Betriebsmittel an: '.$data->getName());
+
+        return $this->render('betriebsmittel/betriebsmittelAnzeigen.html.twig', [
+            'controller_name' => 'BetriebsmittelContoller',
+            'betriebsmittel' => $data,
+        ]);
     }
 
     #[Route('/betriebsmittel', name: 'betriebsmittel_success')]
@@ -80,12 +91,63 @@ class BetriebsmittelController extends AbstractController
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
 
+            $this->addFlash(
+                'notice',
+                'Das Betriebsmittel wurde erfolgreich erstellt!'
+            );
+
             return $this->redirectToRoute('betriebsmittel_success');
         }
 
         return $this->render('betriebsmittel/betriebsmittelErstellen.html.twig', [
-            'betriebsmittel_form' => $form->createView(),
+            'create_form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/betriebsmittel/update/{id}', name: 'update_betriebsmittel')]
+    public function update(Request $request, $id): Response {
+
+        $betriebsmittel = $this->getDoctrine()->getRepository(Betriebsmittel::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(BetriebsmittelType::class, $betriebsmittel);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $betriebsmittel = $form->getData();
+
+            $em->persist($betriebsmittel);
+
+            $em->flush();
+
+            $this->addFlash(
+                'notice',
+                'Das Betriebsmittel wurde erfolgreich aktualisiert!'
+            );
+
+            return $this->redirectToRoute('betriebsmittel_success');
+
+        }
+
+        return $this->render('betriebsmittel/betriebsmittelAktualisieren.html.twig', [
+            'update_form' => $form->createView(),
+        ]);
+
+    }
+
+    #[Route('/betriebsmittel/delete/{id}', name: 'delete_betriebsmittel')]
+    public function delete(Request $request, $id): Response {
+
+        $betriebsmittel = $this->getDoctrine()->getRepository(Betriebsmittel::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($betriebsmittel);
+        $em->flush();
+
+        $this->addFlash('notice', 'Das Betriebsmittel wurde erfolgreich gelöscht.');
+
+        return $this->redirectToRoute('betriebsmittel_success');
+
     }
 
 
