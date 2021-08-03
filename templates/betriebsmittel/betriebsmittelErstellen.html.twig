@@ -6,8 +6,18 @@
 
 {% block body %}
 
-Geben Sie den Namen für das neue Betriebsmittel ein:
+    <div>
+        <h2>Geben Sie den Namen für das neue Betriebsmittel ein:</h2>
 
-    {{ form(create_form) }}
+
+        {{ form_start(create_form) }}
+
+            {{ form_row(create_form.name) }}
+
+        {{ form_end(create_form) }}
+    </div>
+
+
+
 
 {% endblock %}

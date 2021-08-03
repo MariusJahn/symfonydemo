@@ -16,5 +16,29 @@ body {
 
 .flash {
     color: var(--green);
+    background-color: whitesmoke;
+    line-height: 3;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
+a {
+    color: black;
+    transition: ease-in-out;
+}
+
+.addbutton {
+    float: right;
+    background-color: black;
+    margin-bottom: 10px;
+}
+
+.addbutton:hover{
+    background-color: var(--green);
+    color: white;
+}
+
+a:hover {
+    color: var(--green);
 }

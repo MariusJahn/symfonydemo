@@ -8,7 +8,7 @@
 
 <div>
     {% if(darfSehen) %}
-        <h1>Betriebsmittel</h1>
+        <h1 style="text-align: center">Betriebsmittel</h1>
     {% endif %}
 
 
@@ -21,9 +21,12 @@
     {% endfor %}
 
     <table class="highlight responsive-table z-depth-5 centered">
-        Betriebsmittel hinzufügen <a href="{{ path('create_betriebsmittel')}}"> <i style="float: right" class="small material-icons touch">add</i></a>
+
+        <a href="{{ path('create_betriebsmittel')}}" class="waves-effect waves-light btn addbutton"><i class="material-icons right">add</i>Hinzufügen</a>
+
         <thead>
         <tr>
+            <th>Prüfung notwendig</th>
             <th>ID</th>
             <th>Gerätebezeichnung</th>
             <th></th>
@@ -33,10 +36,10 @@
         <tbody>
         {% for objekt in betriebsmittel %}
             <tr>
+                <td {% if(  objekt.id % 2 == 0 ) %} style="background-color: red" {% elseif (  objekt.id  == 3 ) %} style="background-color: yellow"  %}  {% endif %}></td>
+
                 <td> {{ objekt.id }}</td>
-                {% if(true) %}
-                <td >{{ objekt.name }}</td>
-                {% endif %}
+                <td>{{ objekt.name }}</td>
                 <td>
                     <a href="{{ path('delete_betriebsmittel', { 'id':  objekt.id }) }}"> <i style="float: right" class="small material-icons touch">delete</i></a>
                     <a href="{{ path('update_betriebsmittel', { 'id':  objekt.id }) }}"><i style="float: right" class="small material-icons touch">edit</i></a>
